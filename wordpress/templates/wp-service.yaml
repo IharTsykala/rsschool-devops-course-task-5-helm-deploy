@@ -4,11 +4,11 @@ metadata:
   name: wordpress
   namespace: my-namespace
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb" 
-    metallb.universe.tf/address-pool: "default"
+    metallb.universe.tf/address-pool: "default-pool"
 spec:
   selector:
-    app: wordpress
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/instance: my-wordpress
   ports:
     - protocol: TCP
       port: 80
