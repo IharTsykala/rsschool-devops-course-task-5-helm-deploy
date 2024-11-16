@@ -1,0 +1,13 @@
+.idea/
+.terraform/
+
+.terraform.lock.hcl
+
+cert.pem
+key_pair.pem
+
+traefik-rbac.yaml
+get_helm.sh
+
+tls.key
+tls.crt

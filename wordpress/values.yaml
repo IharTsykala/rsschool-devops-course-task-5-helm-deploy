@@ -1,0 +1,64 @@
+namespace: my-namespace
+
+wordpress:
+  image: "wordpress:latest"
+  replicaCount: 1
+  service:
+    type: NodePort
+    port: 80
+    nodePort: 32000
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  persistentVolume:
+    size: 5Gi
+
+mysql:
+  enabled: true
+  image: "mysql:5.7"
+  rootPassword: "root_password"
+  database: "wp_db"
+  user: "wp_user"
+  password: "wp_password"
+  persistentVolume:
+    size: 5Gi
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+  automount: true
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  tls:
+    - hosts:
+        - example.local
+      secretName: example-tls
+  hosts:
+    - host: example.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 70
+
+image:
+  repository: wordpress
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  port: 80

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  namespace: my-namespace
+  annotations:
+    metallb.universe.tf/address-pool: "default-pool"
+spec:
+  selector:
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/instance: my-wordpress
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
